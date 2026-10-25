@@ -1,0 +1,63 @@
+:root {
+  --bg: #f6f7f9; --panel: #ffffff; --text: #16191d; --muted: #667080; --line: #e3e6ea;
+  --accent: #2557d6; --accent-text: #ffffff; --up: #0e8a4f; --down: #c62f2f; --chip: #eef2fb;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1216; --panel: #181c22; --text: #e7eaee; --muted: #9099a6; --line: #2a3038;
+    --accent: #5b8cff; --accent-text: #0b0e12; --up: #3ccf8a; --down: #ff6b6b; --chip: #1f2735;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+header { position: sticky; top: 0; z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 16px; background: var(--panel); border-bottom: 1px solid var(--line); }
+h1 { margin: 0; font-size: 20px; }
+h2 { margin: 0 0 8px; font-size: 16px; display: inline; }
+.sub { margin: 2px 0 0; font-size: 13px; color: var(--muted); }
+.badge { background: var(--chip); color: var(--accent); padding: 1px 8px; border-radius: 99px; font-weight: 600; }
+main { max-width: 900px; margin: 0 auto; padding: 16px; display: grid; gap: 14px; }
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.card, .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px; min-width: 0; }
+.label { display: block; font-size: 12px; color: var(--muted); }
+.big { font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.up { color: var(--up); } .down { color: var(--down); }
+.muted { color: var(--muted); } .small { font-size: 13px; }
+.row { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+button { font: inherit; border: 1px solid var(--line); background: var(--panel); color: var(--text); border-radius: 8px; padding: 8px 14px; cursor: pointer; }
+button.primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); font-weight: 600; }
+button.danger { color: var(--down); }
+button:disabled { opacity: .6; cursor: wait; }
+button.copy { padding: 3px 10px; font-size: 13px; }
+#chart { width: 100%; height: 160px; margin-top: 8px; display: block; }
+table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 7px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 12px; color: var(--muted); font-weight: 600; }
+td.num, th.num { text-align: right; }
+.scroll { overflow-x: auto; }
+.trade { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.trade:last-child { border-bottom: 0; }
+.tag { display: inline-block; font-size: 12px; font-weight: 700; padding: 1px 8px; border-radius: 6px; text-transform: uppercase; }
+.tag.buy { background: color-mix(in srgb, var(--up) 15%, transparent); color: var(--up); }
+.tag.sell { background: color-mix(in srgb, var(--down) 15%, transparent); color: var(--down); }
+.tag.hold { background: var(--chip); color: var(--muted); }
+.reason { margin: 4px 0 0; }
+.view { background: var(--chip); border-radius: 8px; padding: 10px 12px; margin: 8px 0; }
+.err { color: var(--down); }
+details summary { cursor: pointer; list-style: none; }
+details summary::-webkit-details-marker { display: none; }
+details summary::after { content: " ▾"; color: var(--muted); }
+form { display: grid; gap: 12px; margin-top: 12px; }
+label { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
+input, select { font: inherit; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--text); width: 100%; }
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+label.check { display: flex; align-items: center; gap: 8px; color: var(--text); }
+label.check input { width: auto; }
+footer { padding: 8px 2px 24px; }
+#toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--text); color: var(--bg); padding: 8px 14px; border-radius: 8px; opacity: 0; transition: opacity .2s; pointer-events: none; max-width: calc(100% - 32px); }
+#toast.show { opacity: 1; }
+@media (max-width: 560px) {
+  .cards { grid-template-columns: 1fr 1fr; }
+  .cards .card:first-child { grid-column: 1 / -1; }
+  .grid { grid-template-columns: 1fr; }
+  .big { font-size: 18px; }
+}

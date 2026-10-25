@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Trader</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div>
+      <h1>AI Trader</h1>
+      <p class="sub"><span class="badge">Practice money</span> <span id="engine"></span></p>
+    </div>
+    <button id="runBtn" class="primary">Run analysis</button>
+  </header>
+
+  <main>
+    <section class="cards">
+      <div class="card"><span class="label">Portfolio value</span><span id="value" class="big">–</span></div>
+      <div class="card"><span class="label">Profit / loss</span><span id="pnl" class="big">–</span></div>
+      <div class="card"><span class="label">Cash</span><span id="cash" class="big">–</span></div>
+    </section>
+
+    <section class="panel">
+      <div class="row"><h2>Value over time</h2><span id="marketStatus" class="muted"></span></div>
+      <svg id="chart" viewBox="0 0 600 160" preserveAspectRatio="none" role="img" aria-label="Portfolio value chart"></svg>
+      <p id="chartEmpty" class="muted">Run an analysis to start tracking.</p>
+    </section>
+
+    <section class="panel" id="lastRun">
+      <h2>Latest decision</h2>
+      <p class="muted">No runs yet. Press <b>Run analysis</b> to have Claude look at your watchlist.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Holdings</h2>
+      <div id="holdings"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Trade log</h2>
+      <p class="muted small">Every trade is in practice money. Tap <b>Copy</b> to get the order text if you want to place it yourself in Robinhood.</p>
+      <div id="trades"></div>
+    </section>
+
+    <section class="panel">
+      <details>
+        <summary><h2>Settings &amp; safety rules</h2></summary>
+        <form id="settings">
+          <label>Watchlist (comma separated)<input name="watchlist" autocomplete="off"></label>
+          <label>Price data
+            <select name="dataProvider">
+              <option value="yahoo">Real prices (Yahoo Finance)</option>
+              <option value="demo">Demo prices (made up, for testing)</option>
+            </select>
+          </label>
+          <div class="grid">
+            <label>Max % in one stock<input name="maxPositionPct" type="number" min="1" max="100" step="1"></label>
+            <label>Min % kept in cash<input name="minCashPct" type="number" min="0" max="90" step="1"></label>
+            <label>Stop-loss %<input name="stopLossPct" type="number" min="1" max="50" step="0.5"></label>
+            <label>Max trades per run<input name="maxTradesPerRun" type="number" min="1" max="25" step="1"></label>
+            <label>Auto-run every (minutes, 0 = off)<input name="autoRunMinutes" type="number" min="0" max="1440" step="1"></label>
+            <label>Starting cash (on reset)<input name="startingCash" type="number" min="100" step="100"></label>
+          </div>
+          <label class="check"><input name="useNewsSearch" type="checkbox"> Let Claude search recent news</label>
+          <div class="row">
+            <button type="submit" class="primary">Save settings</button>
+            <button type="button" id="resetBtn" class="danger">Reset portfolio</button>
+          </div>
+          <p id="settingsMsg" class="muted small"></p>
+        </form>
+      </details>
+    </section>
+
+    <footer class="muted small">
+      This is a practice tool, not financial advice. AI and simple rules can and do lose money.
+      Nothing here places real orders. Auto-run only trades during US market hours (holidays not included).
+    </footer>
+  </main>
+  <div id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
