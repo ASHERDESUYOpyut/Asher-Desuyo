@@ -1,0 +1,10 @@
+{
+  "watchlist": ["AAPL", "MSFT", "NVDA", "AMZN", "GOOGL", "SPY"],
+  "dataProvider": "real",
+  "startingCash": 100000,
+  "maxPositionPct": 10,
+  "minCashPct": 10,
+  "stopLossPct": 8,
+  "maxTradesPerRun": 5,
+  "useNewsSearch": true
+}

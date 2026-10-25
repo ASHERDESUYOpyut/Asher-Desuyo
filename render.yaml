@@ -12,6 +12,10 @@ services:
         sync: false
       - key: ANTHROPIC_API_KEY # from console.anthropic.com; leave blank to use the backup strategy
         sync: false
+      - key: ALPACA_API_KEY_ID # optional, free at alpaca.markets
+        sync: false
+      - key: ALPACA_API_SECRET_KEY
+        sync: false
       - key: DATA_FILE
         value: /var/data/portfolio.json
       - key: NODE_VERSION

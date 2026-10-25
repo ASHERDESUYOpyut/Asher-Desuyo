@@ -19,12 +19,27 @@ A practice-money stock trading website. Claude looks at your watchlist and decid
 
 Without an API key, a simple moving-average strategy is used instead of Claude, so you can try the site for free.
 
-## Put it online (Render)
+## Put it online for free (GitHub)
 
-1. Open https://render.com/deploy?repo=https://github.com/ASHERDESUYOpyut/Asher-Desuyo and sign in with GitHub.
-2. Fill in **APP_PASSWORD** (what you'll type to log in) and **ANTHROPIC_API_KEY** (optional).
-3. Tap **Deploy**. It costs about $7/month for an always-on server, plus about $0.25/month for 1 GB of storage that keeps your portfolio saved.
-4. Open the `onrender.com` link it gives you. On iPhone, tap **Share → Add to Home Screen** to get an app icon.
+GitHub runs the analysis every 30 minutes while the US market is open and publishes a view-only page at
+**https://asherdesuyopyut.github.io/Asher-Desuyo/**. One-time setup, all in the repo's **Settings**:
+
+1. **Pages** → *Build and deployment* → Source: **GitHub Actions**.
+2. **Secrets and variables → Actions → New repository secret**, add:
+   - `ANTHROPIC_API_KEY`: from console.anthropic.com (leave out to use the backup strategy)
+   - `ALPACA_API_KEY_ID` and `ALPACA_API_SECRET_KEY`: from a free alpaca.markets account (Home → API Keys; no deposit needed). Optional; without them prices come from Yahoo.
+3. **Actions** tab → **AI Trader** → **Run workflow** to do the first run.
+
+Then:
+- **Change settings** by editing `settings.json` (watchlist, safety limits; `"dataProvider"` is `"real"` or `"demo"`).
+- **Run now or reset** from Actions → AI Trader → Run workflow.
+- The portfolio is saved on the `portfolio-data` branch.
+- The page is public (anyone with the link can see the practice trades). Your keys stay secret.
+
+## Put it online on a paid server (Render, optional)
+
+Gives you the full site with login, Run button and settings on the page, for about $7/month.
+Open https://render.com/deploy?repo=https://github.com/ASHERDESUYOpyut/Asher-Desuyo, fill in `APP_PASSWORD` and `ANTHROPIC_API_KEY` (plus the Alpaca keys if you have them), and tap Deploy.
 
 ## Run it on your own computer
 
@@ -41,6 +56,7 @@ Optional settings:
 | Variable | What it does |
 |---|---|
 | `APP_PASSWORD` | Shows a login page and asks for this password. **Set this if you put the site online**, so strangers can't run it and spend your API credit. |
+| `ALPACA_API_KEY_ID`, `ALPACA_API_SECRET_KEY` | Free Alpaca keys for reliable real-time prices. Without them, Yahoo Finance is used. |
 | `CLAUDE_MODEL` | Which Claude model to use (default `claude-opus-5-5`). |
 | `PORT` | Port to serve on (default 3000). |
 | `DATA_FILE` | Where the portfolio is saved (default `data/portfolio.json`). |
@@ -51,7 +67,7 @@ Each run with Claude is one API call, plus a few web searches when news search i
 
 ## Prices
 
-"Real prices" uses Yahoo Finance's public chart data (no key). It's unofficial and can be rate-limited or change. "Demo prices" makes up prices so you can test any time.
+"Real prices" come from Alpaca's free official data (IEX feed, real-time) when Alpaca keys are set, otherwise from Yahoo Finance's unofficial public data, which often blocks cloud servers. Robinhood has no official price API; its prices are the same market prices anyway. "Demo prices" makes up prices so you can test any time.
 
 ## Tests
 

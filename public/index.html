@@ -27,6 +27,8 @@
       <div class="card"><span class="label">Cash</span><span id="cash" class="big">–</span></div>
     </section>
 
+    <section class="panel" id="githubInfo" hidden></section>
+
     <section class="panel">
       <div class="row"><h2>Value over time</h2><span id="marketStatus" class="muted"></span></div>
       <svg id="chart" viewBox="0 0 600 160" preserveAspectRatio="none" role="img" aria-label="Portfolio value chart"></svg>
@@ -49,14 +51,14 @@
       <div id="trades"></div>
     </section>
 
-    <section class="panel">
+    <section class="panel" id="settingsPanel">
       <details>
         <summary><h2>Settings &amp; safety rules</h2></summary>
         <form id="settings">
           <label>Watchlist (comma separated)<input name="watchlist" autocomplete="off"></label>
           <label>Price data
             <select name="dataProvider">
-              <option value="yahoo">Real prices (Yahoo Finance)</option>
+              <option value="yahoo">Real prices (Alpaca or Yahoo Finance)</option>
               <option value="demo">Demo prices (made up, for testing)</option>
             </select>
           </label>

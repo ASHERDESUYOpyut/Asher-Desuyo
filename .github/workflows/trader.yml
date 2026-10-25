@@ -1,0 +1,94 @@
+# Runs AI Trader for free on GitHub: every 30 minutes while the US market is
+# open, Claude reviews the watchlist, the portfolio is saved to the
+# "portfolio-data" branch, and the view-only website is published to GitHub Pages.
+name: AI Trader
+
+on:
+  schedule:
+    # Every 30 min, Mon-Fri, 13:00-21:59 UTC. Covers market hours in both summer
+    # and winter time; the script skips runs while the market is closed.
+    - cron: "5,35 13-21 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Run the analysis even if the market is closed"
+        type: boolean
+        default: true
+      reset:
+        description: "Erase the practice portfolio and start over"
+        type: boolean
+        default: false
+  push:
+    branches: [claude/iphone-app-development-gw7cfj]
+    paths: ["public/**", "lib/**", "scripts/**", "settings.json", ".github/workflows/trader.yml"]
+
+permissions:
+  contents: write # save the portfolio
+  pages: write # publish the website
+  id-token: write
+
+concurrency:
+  group: ai-trader
+  cancel-in-progress: false
+
+jobs:
+  trade:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Load saved portfolio
+        run: |
+          mkdir -p data
+          if git fetch --depth=1 origin portfolio-data 2>/dev/null; then
+            git show FETCH_HEAD:portfolio.json > data/portfolio.json
+            echo "Loaded saved portfolio."
+          else
+            echo "No saved portfolio yet, starting fresh."
+          fi
+
+      - name: Run analysis and build website
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ALPACA_API_KEY_ID: ${{ secrets.ALPACA_API_KEY_ID }}
+          ALPACA_API_SECRET_KEY: ${{ secrets.ALPACA_API_SECRET_KEY }}
+        run: |
+          ARGS="--site _site"
+          # A code push only rebuilds the website; it never trades.
+          if [ "${{ github.event_name }}" = "push" ]; then ARGS="$ARGS --no-run"; fi
+          if [ "${{ inputs.force }}" = "true" ]; then ARGS="$ARGS --force"; fi
+          if [ "${{ inputs.reset }}" = "true" ]; then ARGS="$ARGS --reset"; fi
+          node scripts/github-run.js $ARGS
+
+      - name: Save portfolio
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git fetch --depth=1 origin portfolio-data 2>/dev/null; then
+            git worktree add /tmp/portfolio FETCH_HEAD
+          else
+            git worktree add --orphan -b portfolio-data /tmp/portfolio
+          fi
+          cp data/portfolio.json /tmp/portfolio/portfolio.json
+          cd /tmp/portfolio
+          git add portfolio.json
+          if git diff --cached --quiet; then echo "No changes to save."; exit 0; fi
+          git commit -q -m "Update portfolio"
+          git push origin HEAD:refs/heads/portfolio-data
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deploy
+        uses: actions/deploy-pages@v4

@@ -1,11 +1,10 @@
 import express from "express";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import Anthropic from "@anthropic-ai/sdk";
-import { Store, totalValue, executeOrder, DEFAULT_SETTINGS } from "./lib/portfolio.js";
-import { getMarketData, isMarketOpen } from "./lib/market.js";
-import { stopLossOrders, checkDecisions } from "./lib/rules.js";
-import { claudeDecide, strategyDecide, hasClaude, MODEL } from "./lib/brain.js";
+import { Store, DEFAULT_SETTINGS } from "./lib/portfolio.js";
+import { isMarketOpen } from "./lib/market.js";
+import { hasClaude, MODEL } from "./lib/brain.js";
+import { runAnalysis, publicView, applySettings } from "./lib/engine.js";
 import { authMiddleware, loginRoutes } from "./lib/auth.js";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -31,74 +30,15 @@ let running = false;
 export async function runOnce(trigger = "manual") {
   if (running) throw new Error("A run is already in progress.");
   running = true;
-  const state = store.state;
-  const s = state.settings;
-  const run = { time: new Date().toISOString(), trigger, engine: null, marketView: "", decisions: [], executed: [], rejected: [], errors: [] };
   try {
-    const market = await getMarketData(s.watchlist, s.dataProvider);
-    for (const m of market) if (m.error) run.errors.push(`${m.symbol}: ${m.error}`);
-    const good = market.filter((m) => m.price);
-    if (!good.length) throw new Error("Couldn't get prices for any watchlist stock.");
-    const prices = Object.fromEntries(good.map((m) => [m.symbol, m.price]));
-    state.lastPrices = { ...state.lastPrices, ...prices };
-
-    // 1. Safety first: stop-losses run before anything else.
-    const stops = stopLossOrders(state, prices, s);
-    for (const o of stops) run.executed.push(executeOrder(state, o));
-
-    // 2. Get trade ideas.
-    let ideas;
-    if (hasClaude()) {
-      try {
-        ideas = await claudeDecide(state, good);
-        run.engine = `Claude (${ideas.model})`;
-      } catch (err) {
-        const why = err instanceof Anthropic.AuthenticationError ? "the API key was rejected"
-          : err instanceof Anthropic.RateLimitError ? "rate limited, try again shortly"
-          : err instanceof Anthropic.APIError ? `API error ${err.status ?? ""}`.trim()
-          : err.message;
-        run.errors.push(`Claude unavailable (${why}). No trades were made this run.`);
-        ideas = { marketView: "", decisions: [] };
-        run.engine = "Claude (failed)";
-      }
-    } else {
-      ideas = strategyDecide(state, good);
-      run.engine = "Backup strategy";
-    }
-    run.marketView = ideas.marketView;
-    run.decisions = ideas.decisions;
-
-    // 3. Rules check, then execute what's allowed.
-    const { approved, rejected } = checkDecisions(state, ideas.decisions, prices, s, stops.map((o) => o.symbol));
-    for (const o of approved) {
-      const reason = o.ruleNote ? `${o.reason} (Rules: ${o.ruleNote}.)` : o.reason;
-      run.executed.push(executeOrder(state, { ...o, reason }));
-    }
-    run.rejected = rejected;
-    state.history.push({ time: run.time, value: Math.round(totalValue(state) * 100) / 100 });
-    state.history = state.history.slice(-2000);
-  } catch (err) {
-    run.errors.push(err.message);
+    return await runAnalysis(store.state, trigger);
   } finally {
-    state.runs.unshift(run);
-    state.runs = state.runs.slice(0, 50);
     store.save();
     running = false;
   }
-  return run;
 }
 
-function publicState() {
-  const st = store.state;
-  return {
-    ...st,
-    totalValue: totalValue(st),
-    running,
-    claudeEnabled: hasClaude(),
-    model: hasClaude() ? MODEL : null,
-    marketOpen: isMarketOpen(),
-  };
-}
+const publicState = () => publicView(store.state, { running });
 
 app.get("/api/state", (req, res) => res.json(publicState()));
 
@@ -112,22 +52,7 @@ app.post("/api/run", async (req, res) => {
 });
 
 app.post("/api/settings", (req, res) => {
-  const input = req.body || {};
-  const s = store.state.settings;
-  const num = (v, min, max) => {
-    const n = Number(v);
-    return Number.isFinite(n) ? Math.min(max, Math.max(min, n)) : undefined;
-  };
-  if (Array.isArray(input.watchlist)) {
-    const list = [...new Set(input.watchlist.map((x) => String(x).trim().toUpperCase()).filter((x) => /^[A-Z.\-^]{1,10}$/.test(x)))];
-    if (list.length) s.watchlist = list.slice(0, 25);
-  }
-  if (["yahoo", "demo"].includes(input.dataProvider)) s.dataProvider = input.dataProvider;
-  for (const [key, min, max] of [["maxPositionPct", 1, 100], ["minCashPct", 0, 90], ["stopLossPct", 1, 50], ["maxTradesPerRun", 1, 25], ["autoRunMinutes", 0, 1440], ["startingCash", 100, 1e9]]) {
-    const v = num(input[key], min, max);
-    if (v !== undefined) s[key] = key === "maxTradesPerRun" || key === "autoRunMinutes" ? Math.round(v) : v;
-  }
-  if (typeof input.useNewsSearch === "boolean") s.useNewsSearch = input.useNewsSearch;
+  applySettings(store.state.settings, req.body || {});
   store.save();
   scheduleAutoRun();
   res.json(publicState());

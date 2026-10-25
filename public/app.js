@@ -34,11 +34,28 @@ function render() {
   $("marketStatus").textContent = s.dataProvider === "demo" ? "Demo prices" : state.marketOpen ? "US market open" : "US market closed";
   $("runBtn").disabled = state.running;
   $("runBtn").textContent = state.running ? "Thinking…" : "Run analysis";
+  renderGithubInfo();
   renderChart();
   renderLastRun();
   renderHoldings();
   renderTrades();
   fillSettings();
+}
+
+function renderGithubInfo() {
+  const gh = state.mode === "github";
+  $("runBtn").hidden = gh;
+  $("settingsPanel").hidden = gh;
+  $("githubInfo").hidden = !gh;
+  if (!gh) return;
+  const repo = state.repo ? `https://github.com/${state.repo}` : null;
+  const links = repo
+    ? `<p class="small"><a href="${repo}/actions/workflows/trader.yml">Run it now</a> (tap <b>Run workflow</b>) ·
+       <a href="${repo}/edit/${encodeURIComponent(state.branch || "main")}/settings.json">Change settings</a></p>`
+    : "";
+  $("githubInfo").innerHTML = `<h2>Runs automatically</h2>
+    <p class="small muted">Claude checks your watchlist every 30 minutes while the US market is open. This page updates by itself.
+    Last update ${when(state.updatedAt)}.</p>${links}`;
 }
 
 function renderChart() {
@@ -162,8 +179,21 @@ $("resetBtn").addEventListener("click", async () => {
   catch (err) { toast(err.message); }
 });
 
+// Two ways this page runs: with the web server (/api), or as a view-only page on
+// GitHub Pages that reads state.json, which GitHub updates on a timer.
+let viewOnly = false;
 async function refresh() {
-  try { state = await api("/api/state"); render(); } catch { /* server restarting */ }
+  if (!viewOnly) {
+    try { state = await api("/api/state"); render(); return; }
+    catch { /* no server: try view-only mode */ }
+  }
+  try {
+    const res = await fetch(`state.json?t=${Date.now()}`);
+    if (!res.ok) return;
+    state = await res.json();
+    viewOnly = true;
+    render();
+  } catch { /* offline */ }
 }
 refresh();
-setInterval(refresh, 30000);
+setInterval(refresh, 60000);

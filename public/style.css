@@ -61,3 +61,4 @@ footer { padding: 8px 2px 24px; }
   .grid { grid-template-columns: 1fr; }
   .big { font-size: 18px; }
 }
+a { color: var(--accent); font-weight: 600; }
