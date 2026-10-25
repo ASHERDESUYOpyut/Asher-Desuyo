@@ -1,0 +1,26 @@
+{
+  "settings": {
+    "watchlist": [
+      "AAPL",
+      "MSFT",
+      "NVDA",
+      "AMZN",
+      "GOOGL",
+      "SPY"
+    ],
+    "dataProvider": "yahoo",
+    "startingCash": 100000,
+    "maxPositionPct": 10,
+    "minCashPct": 10,
+    "stopLossPct": 8,
+    "maxTradesPerRun": 5,
+    "useNewsSearch": true,
+    "autoRunMinutes": 0
+  },
+  "cash": 100000,
+  "positions": {},
+  "trades": [],
+  "runs": [],
+  "history": [],
+  "lastPrices": {}
+}
