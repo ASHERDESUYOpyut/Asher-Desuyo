@@ -19,7 +19,14 @@ A practice-money stock trading website. Claude looks at your watchlist and decid
 
 Without an API key, a simple moving-average strategy is used instead of Claude, so you can try the site for free.
 
-## Run it
+## Put it online (Render)
+
+1. Open https://render.com/deploy?repo=https://github.com/ASHERDESUYOpyut/Asher-Desuyo and sign in with GitHub.
+2. Fill in **APP_PASSWORD** (what you'll type to log in) and **ANTHROPIC_API_KEY** (optional).
+3. Tap **Deploy**. It costs about $7/month for an always-on server, plus about $0.25/month for 1 GB of storage that keeps your portfolio saved.
+4. Open the `onrender.com` link it gives you. On iPhone, tap **Share → Add to Home Screen** to get an app icon.
+
+## Run it on your own computer
 
 Needs Node.js 20 or newer.
 
@@ -33,7 +40,7 @@ Optional settings:
 
 | Variable | What it does |
 |---|---|
-| `APP_PASSWORD` | Asks for a password before showing the site. **Set this if you put the site online**, so strangers can't run it and spend your API credit. |
+| `APP_PASSWORD` | Shows a login page and asks for this password. **Set this if you put the site online**, so strangers can't run it and spend your API credit. |
 | `CLAUDE_MODEL` | Which Claude model to use (default `claude-opus-5-5`). |
 | `PORT` | Port to serve on (default 3000). |
 | `DATA_FILE` | Where the portfolio is saved (default `data/portfolio.json`). |

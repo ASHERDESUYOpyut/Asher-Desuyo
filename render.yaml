@@ -1,0 +1,22 @@
+# One-click hosting on Render: https://render.com/deploy?repo=https://github.com/ASHERDESUYOpyut/Asher-Desuyo
+services:
+  - type: web
+    name: ai-trader
+    runtime: node
+    plan: starter # always on, so auto-run works; free plans sleep and can't keep a disk
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: APP_PASSWORD # you choose this when deploying
+        sync: false
+      - key: ANTHROPIC_API_KEY # from console.anthropic.com; leave blank to use the backup strategy
+        sync: false
+      - key: DATA_FILE
+        value: /var/data/portfolio.json
+      - key: NODE_VERSION
+        value: "22"
+    disk:
+      name: portfolio-data
+      mountPath: /var/data
+      sizeGB: 1

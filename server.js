@@ -6,20 +6,23 @@ import { Store, totalValue, executeOrder, DEFAULT_SETTINGS } from "./lib/portfol
 import { getMarketData, isMarketOpen } from "./lib/market.js";
 import { stopLossOrders, checkDecisions } from "./lib/rules.js";
 import { claudeDecide, strategyDecide, hasClaude, MODEL } from "./lib/brain.js";
+import { authMiddleware, loginRoutes } from "./lib/auth.js";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const store = new Store(process.env.DATA_FILE || path.join(here, "data", "portfolio.json"));
 const app = express();
+app.set("trust proxy", 1); // hosting providers sit in front of the app
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.get("/healthz", (req, res) => res.send("ok"));
 
-// Optional password so strangers can't run trades (and spend API credit) if this is online.
+// Password so strangers can't run trades (and spend API credit) when this is online.
 if (process.env.APP_PASSWORD) {
-  app.use((req, res, next) => {
-    const [, encoded] = (req.headers.authorization || "").split(" ");
-    const password = encoded ? Buffer.from(encoded, "base64").toString().split(":").slice(1).join(":") : "";
-    if (password === process.env.APP_PASSWORD) return next();
-    res.set("WWW-Authenticate", 'Basic realm="AI Trader"').status(401).send("Password required");
-  });
+  loginRoutes(app, process.env.APP_PASSWORD);
+  app.use(authMiddleware(process.env.APP_PASSWORD));
+} else if (process.env.RENDER) {
+  // Online with no password: refuse to serve rather than expose the API key.
+  app.use((req, res) => res.status(503).send("Set APP_PASSWORD in your hosting settings to use AI Trader."));
 }
 app.use(express.static(path.join(here, "public")));
 
