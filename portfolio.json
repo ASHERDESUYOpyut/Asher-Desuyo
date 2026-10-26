@@ -17,10 +17,198 @@
     "useNewsSearch": true,
     "autoRunMinutes": 0
   },
-  "cash": 100000,
-  "positions": {},
-  "trades": [],
-  "runs": [],
-  "history": [],
-  "lastPrices": {}
+  "cash": 65296.88999999999,
+  "positions": {
+    "AAPL": {
+      "shares": 26,
+      "avgCost": 342.83
+    },
+    "MSFT": {
+      "shares": 16,
+      "avgCost": 531.68
+    },
+    "NVDA": {
+      "shares": 41,
+      "avgCost": 216.26
+    },
+    "SPY": {
+      "shares": 11,
+      "avgCost": 765.09
+    }
+  },
+  "trades": [
+    {
+      "id": "1793041552504-5a2ye",
+      "time": "2026-10-26T19:05:52.504Z",
+      "symbol": "SPY",
+      "side": "buy",
+      "shares": 11,
+      "price": 765.09,
+      "reason": "Uptrend: 20-day average ($770.12) is above the 50-day ($767.58) and RSI 37.84 isn't overheated.",
+      "source": "strategy",
+      "confidence": 0.6,
+      "realizedPnl": null
+    },
+    {
+      "id": "1793041552504-zftmq",
+      "time": "2026-10-26T19:05:52.504Z",
+      "symbol": "NVDA",
+      "side": "buy",
+      "shares": 41,
+      "price": 216.26,
+      "reason": "Uptrend: 20-day average ($224.91) is above the 50-day ($222.3) and RSI 29.07 isn't overheated.",
+      "source": "strategy",
+      "confidence": 0.6,
+      "realizedPnl": null
+    },
+    {
+      "id": "1793041552504-1t7fq",
+      "time": "2026-10-26T19:05:52.504Z",
+      "symbol": "MSFT",
+      "side": "buy",
+      "shares": 16,
+      "price": 531.68,
+      "reason": "Uptrend: 20-day average ($527.83) is above the 50-day ($509.15) and RSI 51.42 isn't overheated.",
+      "source": "strategy",
+      "confidence": 0.6,
+      "realizedPnl": null
+    },
+    {
+      "id": "1793041552504-vbp51",
+      "time": "2026-10-26T19:05:52.504Z",
+      "symbol": "AAPL",
+      "side": "buy",
+      "shares": 26,
+      "price": 342.83,
+      "reason": "Uptrend: 20-day average ($339.13) is above the 50-day ($330.2) and RSI 62.31 isn't overheated.",
+      "source": "strategy",
+      "confidence": 0.6,
+      "realizedPnl": null
+    }
+  ],
+  "runs": [
+    {
+      "time": "2026-10-26T19:05:52.164Z",
+      "trigger": "auto",
+      "engine": "Backup strategy",
+      "priceSource": "Yahoo",
+      "marketView": "Backup strategy (no Claude API key set): simple moving-average trend following.",
+      "decisions": [
+        {
+          "symbol": "AAPL",
+          "action": "buy",
+          "shares": 26,
+          "confidence": 0.6,
+          "reason": "Uptrend: 20-day average ($339.13) is above the 50-day ($330.2) and RSI 62.31 isn't overheated.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "MSFT",
+          "action": "buy",
+          "shares": 16,
+          "confidence": 0.6,
+          "reason": "Uptrend: 20-day average ($527.83) is above the 50-day ($509.15) and RSI 51.42 isn't overheated.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "NVDA",
+          "action": "buy",
+          "shares": 41,
+          "confidence": 0.6,
+          "reason": "Uptrend: 20-day average ($224.91) is above the 50-day ($222.3) and RSI 29.07 isn't overheated.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "AMZN",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "No clear uptrend yet.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "GOOGL",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "No clear uptrend yet.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "SPY",
+          "action": "buy",
+          "shares": 11,
+          "confidence": 0.6,
+          "reason": "Uptrend: 20-day average ($770.12) is above the 50-day ($767.58) and RSI 37.84 isn't overheated.",
+          "source": "strategy"
+        }
+      ],
+      "executed": [
+        {
+          "id": "1793041552504-vbp51",
+          "time": "2026-10-26T19:05:52.504Z",
+          "symbol": "AAPL",
+          "side": "buy",
+          "shares": 26,
+          "price": 342.83,
+          "reason": "Uptrend: 20-day average ($339.13) is above the 50-day ($330.2) and RSI 62.31 isn't overheated.",
+          "source": "strategy",
+          "confidence": 0.6,
+          "realizedPnl": null
+        },
+        {
+          "id": "1793041552504-1t7fq",
+          "time": "2026-10-26T19:05:52.504Z",
+          "symbol": "MSFT",
+          "side": "buy",
+          "shares": 16,
+          "price": 531.68,
+          "reason": "Uptrend: 20-day average ($527.83) is above the 50-day ($509.15) and RSI 51.42 isn't overheated.",
+          "source": "strategy",
+          "confidence": 0.6,
+          "realizedPnl": null
+        },
+        {
+          "id": "1793041552504-zftmq",
+          "time": "2026-10-26T19:05:52.504Z",
+          "symbol": "NVDA",
+          "side": "buy",
+          "shares": 41,
+          "price": 216.26,
+          "reason": "Uptrend: 20-day average ($224.91) is above the 50-day ($222.3) and RSI 29.07 isn't overheated.",
+          "source": "strategy",
+          "confidence": 0.6,
+          "realizedPnl": null
+        },
+        {
+          "id": "1793041552504-5a2ye",
+          "time": "2026-10-26T19:05:52.504Z",
+          "symbol": "SPY",
+          "side": "buy",
+          "shares": 11,
+          "price": 765.09,
+          "reason": "Uptrend: 20-day average ($770.12) is above the 50-day ($767.58) and RSI 37.84 isn't overheated.",
+          "source": "strategy",
+          "confidence": 0.6,
+          "realizedPnl": null
+        }
+      ],
+      "rejected": [],
+      "errors": []
+    }
+  ],
+  "history": [
+    {
+      "time": "2026-10-26T19:05:52.164Z",
+      "value": 100000
+    }
+  ],
+  "lastPrices": {
+    "AAPL": 342.83,
+    "MSFT": 531.68,
+    "NVDA": 216.26,
+    "AMZN": 248.57,
+    "GOOGL": 317.13,
+    "SPY": 765.09
+  }
 }
