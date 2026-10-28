@@ -17,7 +17,7 @@
     "useNewsSearch": true,
     "autoRunMinutes": 0
   },
-  "cash": 65296.88999999999,
+  "cash": 56413.189999999995,
   "positions": {
     "AAPL": {
       "shares": 26,
@@ -34,9 +34,25 @@
     "SPY": {
       "shares": 11,
       "avgCost": 765.09
+    },
+    "AMZN": {
+      "shares": 35,
+      "avgCost": 253.81999999999996
     }
   },
   "trades": [
+    {
+      "id": "1793213011793-8edev",
+      "time": "2026-10-28T18:43:31.793Z",
+      "symbol": "AMZN",
+      "side": "buy",
+      "shares": 35,
+      "price": 253.82,
+      "reason": "Uptrend: 20-day average ($255.13) is above the 50-day ($255.1) and RSI 49.78 isn't overheated.",
+      "source": "strategy",
+      "confidence": 0.6,
+      "realizedPnl": null
+    },
     {
       "id": "1793041552504-5a2ye",
       "time": "2026-10-26T19:05:52.504Z",
@@ -87,6 +103,79 @@
     }
   ],
   "runs": [
+    {
+      "time": "2026-10-28T18:43:31.622Z",
+      "trigger": "auto",
+      "engine": "Backup strategy",
+      "priceSource": "Yahoo",
+      "marketView": "Backup strategy (no Claude API key set): simple moving-average trend following.",
+      "decisions": [
+        {
+          "symbol": "AAPL",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "Uptrend still intact.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "MSFT",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "Uptrend still intact.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "NVDA",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "Uptrend still intact.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "AMZN",
+          "action": "buy",
+          "shares": 35,
+          "confidence": 0.6,
+          "reason": "Uptrend: 20-day average ($255.13) is above the 50-day ($255.1) and RSI 49.78 isn't overheated.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "GOOGL",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "No clear uptrend yet.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "SPY",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "Uptrend still intact.",
+          "source": "strategy"
+        }
+      ],
+      "executed": [
+        {
+          "id": "1793213011793-8edev",
+          "time": "2026-10-28T18:43:31.793Z",
+          "symbol": "AMZN",
+          "side": "buy",
+          "shares": 35,
+          "price": 253.82,
+          "reason": "Uptrend: 20-day average ($255.13) is above the 50-day ($255.1) and RSI 49.78 isn't overheated.",
+          "source": "strategy",
+          "confidence": 0.6,
+          "realizedPnl": null
+        }
+      ],
+      "rejected": [],
+      "errors": []
+    },
     {
       "time": "2026-10-27T18:37:30.167Z",
       "trigger": "auto",
@@ -265,14 +354,18 @@
     {
       "time": "2026-10-27T18:37:30.167Z",
       "value": 100159.05
+    },
+    {
+      "time": "2026-10-28T18:43:31.622Z",
+      "value": 100146.52
     }
   ],
   "lastPrices": {
-    "AAPL": 345.85,
-    "MSFT": 530.7,
-    "NVDA": 217.52,
-    "AMZN": 254.05,
-    "GOOGL": 321.8,
-    "SPY": 769.14
+    "AAPL": 344.63,
+    "MSFT": 529.41,
+    "NVDA": 217.48,
+    "AMZN": 253.82,
+    "GOOGL": 324.91,
+    "SPY": 772.91
   }
 }
