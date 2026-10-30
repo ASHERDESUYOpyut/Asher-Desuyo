@@ -17,7 +17,7 @@
     "useNewsSearch": true,
     "autoRunMinutes": 0
   },
-  "cash": 56413.189999999995,
+  "cash": 64690.27,
   "positions": {
     "AAPL": {
       "shares": 26,
@@ -26,10 +26,6 @@
     "MSFT": {
       "shares": 16,
       "avgCost": 531.68
-    },
-    "NVDA": {
-      "shares": 41,
-      "avgCost": 216.26
     },
     "SPY": {
       "shares": 11,
@@ -41,6 +37,18 @@
     }
   },
   "trades": [
+    {
+      "id": "1793384995499-bpeay",
+      "time": "2026-10-30T18:29:55.499Z",
+      "symbol": "NVDA",
+      "side": "sell",
+      "shares": 41,
+      "price": 201.88,
+      "reason": "Trend turned down: 20-day average ($221.32) fell below the 50-day ($221.69).",
+      "source": "strategy",
+      "confidence": 0.6,
+      "realizedPnl": -589.58
+    },
     {
       "id": "1793213011793-8edev",
       "time": "2026-10-28T18:43:31.793Z",
@@ -103,6 +111,79 @@
     }
   ],
   "runs": [
+    {
+      "time": "2026-10-30T18:29:55.181Z",
+      "trigger": "auto",
+      "engine": "Backup strategy",
+      "priceSource": "Yahoo",
+      "marketView": "Backup strategy (no Claude API key set): simple moving-average trend following.",
+      "decisions": [
+        {
+          "symbol": "AAPL",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "Uptrend still intact.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "MSFT",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "Uptrend still intact.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "NVDA",
+          "action": "sell",
+          "shares": 41,
+          "confidence": 0.6,
+          "reason": "Trend turned down: 20-day average ($221.32) fell below the 50-day ($221.69).",
+          "source": "strategy"
+        },
+        {
+          "symbol": "AMZN",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "Uptrend still intact.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "GOOGL",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "No clear uptrend yet.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "SPY",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "Uptrend still intact.",
+          "source": "strategy"
+        }
+      ],
+      "executed": [
+        {
+          "id": "1793384995499-bpeay",
+          "time": "2026-10-30T18:29:55.499Z",
+          "symbol": "NVDA",
+          "side": "sell",
+          "shares": 41,
+          "price": 201.88,
+          "reason": "Trend turned down: 20-day average ($221.32) fell below the 50-day ($221.69).",
+          "source": "strategy",
+          "confidence": 0.6,
+          "realizedPnl": -589.58
+        }
+      ],
+      "rejected": [],
+      "errors": []
+    },
     {
       "time": "2026-10-29T18:53:12.713Z",
       "trigger": "auto",
@@ -422,14 +503,18 @@
     {
       "time": "2026-10-29T18:53:12.713Z",
       "value": 99738.57
+    },
+    {
+      "time": "2026-10-30T18:29:55.181Z",
+      "value": 98561.34
     }
   ],
   "lastPrices": {
-    "AAPL": 350.36,
-    "MSFT": 528.54,
-    "NVDA": 212.97,
-    "AMZN": 245.27,
-    "GOOGL": 283.36,
-    "SPY": 767.56
+    "AAPL": 343.49,
+    "MSFT": 520.36,
+    "NVDA": 201.88,
+    "AMZN": 237.74,
+    "GOOGL": 278.28,
+    "SPY": 753.97
   }
 }
