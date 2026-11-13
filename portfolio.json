@@ -120,6 +120,66 @@
   ],
   "runs": [
     {
+      "time": "2026-11-13T20:25:13.289Z",
+      "trigger": "auto",
+      "engine": "Backup strategy",
+      "priceSource": "Yahoo",
+      "marketView": "Backup strategy (no Claude API key set): simple moving-average trend following.",
+      "decisions": [
+        {
+          "symbol": "AAPL",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "Uptrend still intact.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "MSFT",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "Uptrend still intact.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "NVDA",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "No clear uptrend yet.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "AMZN",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "Uptrend still intact.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "GOOGL",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "No clear uptrend yet.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "SPY",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "No clear uptrend yet.",
+          "source": "strategy"
+        }
+      ],
+      "executed": [],
+      "rejected": [],
+      "errors": []
+    },
+    {
       "time": "2026-11-12T20:42:58.664Z",
       "trigger": "auto",
       "engine": "Backup strategy",
@@ -976,14 +1036,18 @@
     {
       "time": "2026-11-12T20:42:58.664Z",
       "value": 99714.43
+    },
+    {
+      "time": "2026-11-13T20:25:13.289Z",
+      "value": 99734.51
     }
   ],
   "lastPrices": {
-    "AAPL": 355.11,
-    "MSFT": 521.55,
-    "NVDA": 164.56,
-    "AMZN": 267.77,
-    "GOOGL": 299.4,
-    "SPY": 756.98
+    "AAPL": 356.8,
+    "MSFT": 524.74,
+    "NVDA": 162.4,
+    "AMZN": 265.63,
+    "GOOGL": 295.43,
+    "SPY": 753.21
   }
 }
