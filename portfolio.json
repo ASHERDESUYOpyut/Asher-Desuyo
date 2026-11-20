@@ -17,15 +17,11 @@
     "useNewsSearch": true,
     "autoRunMinutes": 0
   },
-  "cash": 72764.81999999999,
+  "cash": 80478.57999999999,
   "positions": {
     "AAPL": {
       "shares": 26,
       "avgCost": 342.83
-    },
-    "MSFT": {
-      "shares": 16,
-      "avgCost": 531.68
     },
     "AMZN": {
       "shares": 35,
@@ -33,6 +29,18 @@
     }
   },
   "trades": [
+    {
+      "id": "1795208306582-khxj1",
+      "time": "2026-11-20T20:58:26.582Z",
+      "symbol": "MSFT",
+      "side": "sell",
+      "shares": 16,
+      "price": 482.11,
+      "reason": "Stop-loss: down 9.3% from average cost $531.68 (limit 8%).",
+      "source": "stop-loss",
+      "confidence": null,
+      "realizedPnl": -793.12
+    },
     {
       "id": "1793910719424-iej3a",
       "time": "2026-11-05T20:31:59.424Z",
@@ -119,6 +127,86 @@
     }
   ],
   "runs": [
+    {
+      "time": "2026-11-20T20:58:26.369Z",
+      "trigger": "auto",
+      "engine": "Backup strategy",
+      "priceSource": "Yahoo",
+      "marketView": "Backup strategy (no Claude API key set): simple moving-average trend following.",
+      "decisions": [
+        {
+          "symbol": "AAPL",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "Uptrend still intact.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "MSFT",
+          "action": "buy",
+          "shares": 18,
+          "confidence": 0.6,
+          "reason": "Uptrend: 20-day average ($522.84) is above the 50-day ($519.79) and RSI 42.24 isn't overheated.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "NVDA",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "No clear uptrend yet.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "AMZN",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "Uptrend still intact.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "GOOGL",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "No clear uptrend yet.",
+          "source": "strategy"
+        },
+        {
+          "symbol": "SPY",
+          "action": "hold",
+          "shares": 0,
+          "confidence": 0.5,
+          "reason": "No clear uptrend yet.",
+          "source": "strategy"
+        }
+      ],
+      "executed": [
+        {
+          "id": "1795208306582-khxj1",
+          "time": "2026-11-20T20:58:26.582Z",
+          "symbol": "MSFT",
+          "side": "sell",
+          "shares": 16,
+          "price": 482.11,
+          "reason": "Stop-loss: down 9.3% from average cost $531.68 (limit 8%).",
+          "source": "stop-loss",
+          "confidence": null,
+          "realizedPnl": -793.12
+        }
+      ],
+      "rejected": [
+        {
+          "symbol": "MSFT",
+          "action": "buy",
+          "shares": 18,
+          "why": "Already sold by the stop-loss this run."
+        }
+      ],
+      "errors": []
+    },
     {
       "time": "2026-11-13T20:25:13.289Z",
       "trigger": "auto",
@@ -1040,14 +1128,18 @@
     {
       "time": "2026-11-13T20:25:13.289Z",
       "value": 99734.51
+    },
+    {
+      "time": "2026-11-20T20:58:26.369Z",
+      "value": 97955.04
     }
   ],
   "lastPrices": {
-    "AAPL": 356.8,
-    "MSFT": 524.74,
-    "NVDA": 162.4,
-    "AMZN": 265.63,
-    "GOOGL": 295.43,
-    "SPY": 753.21
+    "AAPL": 341.26,
+    "MSFT": 482.11,
+    "NVDA": 125.03,
+    "AMZN": 245.82,
+    "GOOGL": 264.85,
+    "SPY": 687.43
   }
 }
